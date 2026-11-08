@@ -1,0 +1,42 @@
+name: Free macOS VM GPU / GUI feasibility
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/macos-vm-probe.yml
+permissions:
+  contents: read
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 9
+    steps:
+      - name: Check native GUI and graphics
+        shell: bash
+        run: |
+          set -u
+          echo "RUNNER_OS=$RUNNER_OS RUNNER_ARCH=$RUNNER_ARCH"
+          sw_vers
+          sysctl hw.memsize 2>/dev/null || true
+          system_profiler SPDisplaysDataType 2>&1 | head -n 100 || true
+          pgrep -fl '(WindowServer|Finder|loginwindow)' || true
+          xcrun swift -e 'import Foundation; import Metal; if let d=MTLCreateSystemDefaultDevice() { print("METAL_DEVICE="+d.name) } else { print("METAL_DEVICE_UNAVAILABLE") }' 2>&1 | head -n 60 || true
+          /usr/sbin/screencapture -x "$RUNNER_TEMP/native-vm-screen.png" 2>&1 || true
+          if [ -s "$RUNNER_TEMP/native-vm-screen.png" ]; then
+            file "$RUNNER_TEMP/native-vm-screen.png"
+            echo 'VM_SCREEN_CAPTURE_AVAILABLE=true'
+          else
+            echo 'VM_SCREEN_CAPTURE_AVAILABLE=false'
+          fi
+      - name: Upload non-sensitive VM screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-macos-vm-${{ matrix.os }}
+          path: ${{ runner.temp }}/native-vm-screen.png
+          if-no-files-found: ignore
+          retention-days: 1
