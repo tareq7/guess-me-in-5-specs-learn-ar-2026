@@ -3,9 +3,8 @@
 // Spectacles Interaction Kit Interactables and world-space Text components.
 // Written 2026-11-08 as new work for the SPECS 27 hackathon entry.
 //
-// Native scene wiring is NOT committed in Scene.scene yet — see
-// SCENE_SETUP.md for the exact hierarchy an editor must build. This keeps the
-// committed scene free of unverifiable serialized data.
+// Native scene wiring and the full controller inspector references are now
+// serialized in Assets/Scene.scene. Native preview verification is pending.
 
 import { Interactable } from "SpectaclesInteractionKit.lspkg/Components/Interaction/Interactable/Interactable";
 import { QUESTIONS } from "./GuessMeIn5Questions";
@@ -78,21 +77,21 @@ export class GuessMeIn5Controller extends BaseScriptComponent {
 
   private bindButtons(): void {
     if (this.answerA) {
-      this.answerA.onInteractorTriggerStart.add(() => {
+      this.answerA.onTriggerStart.add(() => {
         this.onAnswer(0, this.answerARoot);
       });
     } else {
       print("GuessMeIn5: answerA Interactable is not wired.");
     }
     if (this.answerB) {
-      this.answerB.onInteractorTriggerStart.add(() => {
+      this.answerB.onTriggerStart.add(() => {
         this.onAnswer(1, this.answerBRoot);
       });
     } else {
       print("GuessMeIn5: answerB Interactable is not wired.");
     }
     if (this.replayButton) {
-      this.replayButton.onInteractorTriggerStart.add(() => {
+      this.replayButton.onTriggerStart.add(() => {
         this.onReplay();
       });
     } else {

@@ -8,7 +8,7 @@ This project explores a **new spatial, hand-interactive AR version** of the owne
 
 ## Status
 
-**Preparation / infrastructure validation only.** No verified SPECS Lens exists in this repository yet. No claims of Lens Studio preview or CLAD/LEAF success are made. The event requires a new Lens, CLAD/Lens Studio MCP build, public source, and a real screen-recorded Lens Studio preview video on YouTube.
+**Native SPECS scene authored and linked (2026-11-08).** The serialized scene includes a world-space quiz hierarchy, seven Text components, three collider/Interactable buttons and a wired controller. Automated source tests are provided; a native Lens Studio preview and CLAD/LEAF builds remain unverified. The event requires a new Lens, CLAD/Lens Studio MCP build, public source, and a real screen-recorded Lens Studio preview video on YouTube.
 
 This public repository is an event-specific work area. The owner's imported source material remains private and is *not* published here.
 
