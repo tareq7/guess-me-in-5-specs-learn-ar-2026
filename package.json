@@ -1,0 +1,9 @@
+{
+  "name": "guess-me-in-5-specs-learn-ar-2026",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Guess Me in 5 — Spatial Edition: new SPECS 27 Lens for Learn AR with SPECS 2026.",
+  "scripts": {
+    "test": "node --test tests/guess-me-in-5-state.test.mjs"
+  }
+}
